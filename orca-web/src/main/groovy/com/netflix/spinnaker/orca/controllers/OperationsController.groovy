@@ -101,22 +101,26 @@ class OperationsController {
 
   @RequestMapping(value = "/orchestrate", method = RequestMethod.POST)
   Map<String, Object> orchestrate(@RequestBody Map pipeline, HttpServletResponse response) {
+    log.info("<<<<<sus in operationController /orchestrate POST method>>>>>>")
     return planOrOrchestratePipeline(pipeline)
   }
 
   @RequestMapping(value = "/orchestrate/{pipelineConfigId}", method = RequestMethod.POST)
   Map<String, Object> orchestratePipelineConfig(@PathVariable String pipelineConfigId, @RequestBody Map trigger) {
+    log.info("<<<<<sus in operationController /orchestrate/{pipelineConfigId} POST method>>>>>>>>>>>")
     Map pipelineConfig = buildPipelineConfig(pipelineConfigId, trigger)
     return planOrOrchestratePipeline(pipelineConfig)
   }
 
   @RequestMapping(value = "/plan", method = RequestMethod.POST)
   Map<String, Object> plan(@RequestBody Map pipeline, @Query("resolveArtifacts") boolean resolveArtifacts, HttpServletResponse response) {
+    log.info("<<<<<sus in operationController /plan POST method>>>>>>>")
     return planPipeline(pipeline, resolveArtifacts)
   }
 
   @RequestMapping(value = "/plan/{pipelineConfigId}", method = RequestMethod.POST)
   Map<String, Object> planPipelineConfig(@PathVariable String pipelineConfigId, @Query("resolveArtifacts") boolean resolveArtifacts, @RequestBody Map trigger) {
+    log.info("<<<<<<<<<sus in operationController /plan/{pipelineConfigId} POST method>>>>>>>>>>")
     Map pipelineConfig = buildPipelineConfig(pipelineConfigId, trigger)
     return planPipeline(pipelineConfig, resolveArtifacts)
   }
@@ -129,6 +133,7 @@ class OperationsController {
    */
   @RequestMapping(value = '/fail', method = RequestMethod.POST)
   void failPipeline(@RequestBody Map pipeline) {
+    log.info("<<<<<,sus in operationsController /fail method>>>.....")
     String errorMessage = pipeline.remove("errorMessage")
 
     recordPipelineFailure(pipeline, errorMessage)
@@ -140,6 +145,7 @@ class OperationsController {
     }
 
     try {
+      log.info("<<<<sus in @operationsController buildPipelineConfig>>>>>>>")
       Map pipelineConfig = AuthenticatedRequest.allowAnonymous({ front50Service.getPipeline(pipelineConfigId) })
       pipelineConfig.trigger = trigger
       return pipelineConfig
@@ -153,8 +159,10 @@ class OperationsController {
 
   private Map planOrOrchestratePipeline(Map pipeline) {
     if (pipeline.plan) {
+      log.info("<<<<<<sus @operationsController planOrOrchestratePipeline(Map pipeline,resolveArtifacts)>>>>>>>>")
       return planPipeline(pipeline, false)
     } else {
+      log.info("<<<<<<sus @operationsController planOrOrchestratePipeline(Map pipeline)>>>>>>>>")
       return orchestratePipeline(pipeline)
     }
   }

@@ -17,6 +17,8 @@
 package com.netflix.spinnaker.orca.web.config
 
 import groovy.util.logging.Slf4j
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import javax.servlet.Filter
 import javax.servlet.FilterChain
@@ -47,7 +49,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableFiatAutoConfig
 @Slf4j
 class WebConfiguration {
-
   @Bean
   MetricsInterceptor metricsInterceptor(Registry registry) {
     return  new MetricsInterceptor(registry, "controller.invocations", ["application"], ["BasicErrorController"])
@@ -86,9 +87,10 @@ class WebConfiguration {
         chain.doFilter(req, res);
       }
 
-      public void init(FilterConfig filterConfig) {}
 
-      public void destroy() {}
+     void init(FilterConfig filterConfig) {}
+
+     void destroy() {}
     }
   }
 }

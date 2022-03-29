@@ -415,6 +415,7 @@ class TaskController {
   @PostAuthorize("hasPermission(returnObject.application, 'APPLICATION', 'READ')")
   @RequestMapping(value = "/pipelines/{id}", method = RequestMethod.GET)
   PipelineExecution getPipeline(@PathVariable String id) {
+    log.info("<<<<<sus in TaskController get pipeline method>>>>>")
     executionRepository.retrieve(PIPELINE, id)
   }
 

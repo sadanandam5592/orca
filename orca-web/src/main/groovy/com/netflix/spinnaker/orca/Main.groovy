@@ -32,8 +32,11 @@ import com.netflix.spinnaker.orca.front50.config.Front50Configuration
 import com.netflix.spinnaker.orca.igor.config.IgorConfiguration
 import com.netflix.spinnaker.orca.kayenta.config.KayentaConfiguration
 import com.netflix.spinnaker.orca.mine.config.MineConfiguration
+import com.netflix.spinnaker.orca.pipeline.util.HttpClientUtils
 import com.netflix.spinnaker.orca.web.config.WebConfiguration
 import com.netflix.spinnaker.orca.webhook.config.WebhookConfiguration
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration
 import org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
@@ -71,6 +74,7 @@ import org.springframework.scheduling.annotation.EnableAsync
     exclude = [BatchAutoConfiguration, GroovyTemplateAutoConfiguration, DataSourceAutoConfiguration]
 )
 class Main extends SpringBootServletInitializer {
+  private static final Logger log = LoggerFactory.getLogger(Main.class)
   static final Map<String, String> DEFAULT_PROPS = [
     'netflix.environment'              : 'test',
     'netflix.account'                  : '${netflix.environment}',
@@ -81,7 +85,7 @@ class Main extends SpringBootServletInitializer {
     'spring.profiles.active'           : '${netflix.environment},local'
   ]
 
-  static void main(String... args) {
+  static void main(String[] args) {
     new SpringApplicationBuilder().properties(DEFAULT_PROPS).sources(Main).run(args)
   }
 

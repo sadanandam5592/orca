@@ -94,9 +94,9 @@ class CompleteTaskHandler(
       return true
     }
 
-    if (originalStatus == FAILED_CONTINUE) {
+    if (status == FAILED_CONTINUE) {
       // the task explicitly returned FAILED_CONTINUE and _should_ run subsequent tasks
-      return false
+      return true
     }
 
     // the task _should not_ run subsequent tasks

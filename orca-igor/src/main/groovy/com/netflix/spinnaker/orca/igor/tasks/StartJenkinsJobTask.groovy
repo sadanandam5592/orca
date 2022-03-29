@@ -58,7 +58,7 @@ class StartJenkinsJobTask implements RetryableTask {
 
     try {
       Response igorResponse = buildService.build(master, job, stage.context.parameters, stage.startTime.toString())
-
+     igorResponse.getStatus();
       if (igorResponse.getStatus() == HttpStatus.ACCEPTED.value()) {
         log.info("build for job=$job on master=$master is pending, waiting for build to start")
         return TaskResult.RUNNING
@@ -73,6 +73,7 @@ class StartJenkinsJobTask implements RetryableTask {
       }
     }
     catch (RetrofitError e) {
+      log.info("<<<<<<<<<<<<<sus you got retrofit error>>>>>>>>")
       // This igor call is idempotent so we can retry despite it being PUT/POST
       ExceptionHandler.Response exceptionResponse = retrofitExceptionHandler.handle("StartJenkinsJob", e)
 
